@@ -1,0 +1,9 @@
+*.exe
+*.test
+
+/.mogu-typo/
+/.claude/
+/.vscode/
+/.idea/
+/.tmp/
+/docs/
