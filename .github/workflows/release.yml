@@ -1,0 +1,31 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: Build binaries
+        run: |
+          GOOS=linux   GOARCH=amd64 go build -o dist/mogutypo-linux-amd64   ./cmd/mogutypo
+          GOOS=linux   GOARCH=arm64 go build -o dist/mogutypo-linux-arm64   ./cmd/mogutypo
+          GOOS=darwin  GOARCH=amd64 go build -o dist/mogutypo-darwin-amd64  ./cmd/mogutypo
+          GOOS=darwin  GOARCH=arm64 go build -o dist/mogutypo-darwin-arm64  ./cmd/mogutypo
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create ${{ github.ref_name }} dist/* --generate-notes
