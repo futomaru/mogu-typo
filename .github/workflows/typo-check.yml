@@ -1,0 +1,17 @@
+name: Typo Check
+on: [pull_request]
+
+jobs:
+  typo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install mogutypo
+        run: |
+          curl -fsSL "https://github.com/futomaru/mogu-typo/releases/latest/download/mogutypo" -o /usr/local/bin/mogutypo
+          chmod +x /usr/local/bin/mogutypo
+
+      - run: mogutypo diff --base origin/${{ github.base_ref }} --format github
