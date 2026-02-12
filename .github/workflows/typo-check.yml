@@ -11,7 +11,7 @@ jobs:
 
       - name: Install mogutypo
         run: |
-          curl -fsSL "https://github.com/futomaru/mogu-typo/releases/latest/download/mogutypo-linux-amd64" -o /usr/local/bin/mogutypo
+          curl -fsSL "https://github.com/futomaru/mogu-typo/releases/latest/download/mogutypo" -o /usr/local/bin/mogutypo
           chmod +x /usr/local/bin/mogutypo
 
       - run: mogutypo diff --base origin/${{ github.base_ref }} --format github
